@@ -3,7 +3,7 @@
     <i>
       <slot name="icon"></slot>
     </i>
-    <div class="details">
+    <div class="details">q
       <h3>
         <slot name="heading"></slot>
       </h3>

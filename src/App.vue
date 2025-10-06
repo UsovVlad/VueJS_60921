@@ -1,26 +1,43 @@
 <template>
-  <header>
-    <nav>
-      <div v-if="isAuthenticated && user">
-        Welcome, {{ user.name }}
-        <button @click="logout">Logout</button>
-      </div>
-      <div v-else>
-        <form @submit.prevent="login">
-          <div>
-            <label for="email">Email:</label>
-            <input v-model="email" type="email" id="email" placeholder="Email" required />
+  <div class="app-container">
+    <header>
+      <nav>
+        <div>
+          <ul>
+            <li><router-link to="/">Главная</router-link></li>
+            <li><router-link to="/categories">Категории</router-link></li>
+            <li><router-link to="/items">Товары</router-link></li>
+            <li><router-link to="/cart">Корзина</router-link></li>
+          </ul>
+        </div>
+
+        <div>
+          <div v-if="isAuthenticated && user">
+            Welcome, {{ user.name }}
+            <button @click="logout">Logout</button>
           </div>
-          <div>
-            <label for="password">Password:</label>
-            <input v-model="password" type="password" id="password" placeholder="Password" required />
+
+          <div v-else>
+            <form @submit.prevent="login">
+              <div>
+                <label for="email">Email:</label>
+                <input v-model="email" type="email" id="email" placeholder="Email" required />
+              </div>
+              <div>
+                <label for="password">Password:</label>
+                <input v-model="password" type="password" id="password" placeholder="Password" required />
+              </div>
+              <button type="submit">Login</button>
+              <p v-if="authError" class="error">{{ authError }}</p>
+            </form>
           </div>
-          <button type="submit">Login</button>
-          <p v-if="authError" class="error">{{ authError }}</p>
-        </form>
-      </div>
-    </nav>
-  </header>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <router-view /><!-- <- сюда рендерятся компоненты роутов -->
+    </main>
+  </div>
 </template>
 
 <script>
@@ -64,95 +81,85 @@ export default {
 </script>
 
 <style>
-.error{
-  color:red;
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between; /* меню слева, логин справа */
+  align-items: center;
+  width: 200%;
+  max-width: 1200px;
+  margin-top: 20px;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between; /* один блок слева, второй справа */
+  align-items: center; /* выровнять по вертикали по центру */
+}
+
+nav ul {
+  display: flex;
+  justify-content: flex-start; /* прижать влево */
+  align-items: center;
+  gap: 25px; /* расстояние между пунктами меню */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 30px;
+}
+
+/* Форма логина в одну строку */
+form {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* расстояние между элементами */
+}
+
+button {
+  background-color: #1abc9c;
+  border: none;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #16a085;
+}
+
+input {
+  padding: 5px 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+form {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* расстояние между элементами */
+}
+
+/* Каждый input и label внутри формы */
+form div {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.error {
+  color: red;
 }
 </style>
-<!--<script setup>-->
-<!--import { RouterLink, RouterView } from 'vue-router'-->
-<!--import HelloWorld from './components/HelloWorld.vue'-->
-<!--</script>-->
-
-<!--<template>-->
-<!--  <header>-->
-<!--    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />-->
-
-<!--    <div class="wrapper">-->
-<!--      <HelloWorld msg="You did it!" />-->
-
-<!--      <nav>-->
-<!--        <RouterLink to="/">Home</RouterLink>-->
-<!--        <RouterLink to="/about">About</RouterLink>-->
-<!--      </nav>-->
-<!--    </div>-->
-<!--  </header>-->
-
-<!--  <RouterView />-->
-<!--</template>-->
-
-<!--<style scoped>-->
-<!--header {-->
-<!--  line-height: 1.5;-->
-<!--  max-height: 100vh;-->
-<!--}-->
-
-<!--.logo {-->
-<!--  display: block;-->
-<!--  margin: 0 auto 2rem;-->
-<!--}-->
-
-<!--nav {-->
-<!--  width: 100%;-->
-<!--  font-size: 12px;-->
-<!--  text-align: center;-->
-<!--  margin-top: 2rem;-->
-<!--}-->
-
-<!--nav a.router-link-exact-active {-->
-<!--  color: var(&#45;&#45;color-text);-->
-<!--}-->
-
-<!--nav a.router-link-exact-active:hover {-->
-<!--  background-color: transparent;-->
-<!--}-->
-
-<!--nav a {-->
-<!--  display: inline-block;-->
-<!--  padding: 0 1rem;-->
-<!--  border-left: 1px solid var(&#45;&#45;color-border);-->
-<!--}-->
-
-<!--nav a:first-of-type {-->
-<!--  border: 0;-->
-<!--}-->
-
-<!--@media (min-width: 1024px) {-->
-<!--  header {-->
-<!--    display: flex;-->
-<!--    place-items: center;-->
-<!--    padding-right: calc(var(&#45;&#45;section-gap) / 2);-->
-<!--  }-->
-
-<!--  .logo {-->
-<!--    margin: 0 2rem 0 0;-->
-<!--  }-->
-
-<!--  header .wrapper {-->
-<!--    display: flex;-->
-<!--    place-items: flex-start;-->
-<!--    flex-wrap: wrap;-->
-<!--  }-->
-
-<!--  nav {-->
-<!--    text-align: left;-->
-<!--    margin-left: -1rem;-->
-<!--    font-size: 1rem;-->
-
-<!--    padding: 1rem 0;-->
-<!--    margin-top: 1rem;-->
-<!--  }-->
-<!--}-->
-<!--</style>-->
-
-<script setup lang="ts">
-</script>
