@@ -76,9 +76,7 @@ export default {
   components: { Menubar, InputText, Password, Button},
   data(){
     return{
-      email:'',
-      password:'',
-      authStore: useAuthStore(),
+      email:'', password:'', authStore: useAuthStore(),
       items: [
         {
           label: "Главная страница",
