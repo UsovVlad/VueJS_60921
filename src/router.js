@@ -27,5 +27,4 @@ const router = createRouter({
   routes // Список маршрутов
 })
 
-// Экспортируем его, чтобы можно было использовать в main.js
 export default router
